@@ -1,8 +1,22 @@
-# from django.test import TestCase
+from django.test import TestCase
+from django.urls import reverse
 
 
-# class TestHomeView(TestCase):
-#     def test_success_get(self):
+class TestHomeView(TestCase):
+    def setUp(self):
+        data = {
+            "username": "testuser",
+            "email": "test@example.com",
+            "password1": "testpassword",
+            "password2": "testpassword",
+        }
+        self.url = reverse("tweets:home")
+        self.client.post(reverse("accounts:signup"), data)
+
+    def test_success_get(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tweets/home.html")
 
 
 # class TestTweetCreateView(TestCase):

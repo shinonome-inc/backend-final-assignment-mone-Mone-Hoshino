@@ -95,8 +95,8 @@ class TestSignupView(TestCase):
         password_empty_data = {
             "username": "testuser",
             "email": "testmail@example.com",
-            "password1": "testpassword",
-            "password2": "testpassword",
+            "password1": "",
+            "password2": "",
         }
 
         response = self.client.post(self.url, data=password_empty_data)
@@ -120,8 +120,7 @@ class TestSignupView(TestCase):
         User.objects.create_user(
             username="testuser",
             email="testemali@example.com",
-            password1="testpassword",
-            password2="testpassword",
+            password="testpassword",
         )
 
         response = self.client.post(self.url, data=duplicated_data)
@@ -148,7 +147,7 @@ class TestSignupView(TestCase):
         context = response.context
         form = context["form"]
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors["emali"][0], "有効なメールアドレスを入力してください。")
+        self.assertEqual(form.errors["email"][0], "有効なメールアドレスを入力してください。")
 
     def test_failure_post_with_too_short_password(self):
         short_password_data = {
@@ -165,7 +164,7 @@ class TestSignupView(TestCase):
         context = response.context
         form = context["form"]
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors["password2"][0], "このパスワードは短すぎます。")
+        self.assertEqual(form.errors["password2"][0], "このパスワードは短すぎます。最低 8 文字以上必要です。")
 
     def test_failure_post_with_password_similar_to_username(self):
         password_similar_to_username_data = {
@@ -182,7 +181,7 @@ class TestSignupView(TestCase):
         context = response.context
         form = context["form"]
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors["password2"][0], "このパスワードはユーザー名と似すぎています。")
+        self.assertEqual(form.errors["password2"][0], "このパスワードは ユーザー名 と似すぎています。")
 
     def test_failure_post_with_only_numbers_password(self):
         only_numbers_password_data = {
