@@ -224,7 +224,7 @@ class TestLoginView(TestCase):
     def setUp(self):
         self.url = reverse("accounts:login")
         User.objects.create_user(username="testuser", password="testpassword")
- 
+
     def test_success_get(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -263,7 +263,7 @@ class TestLoginView(TestCase):
     def test_failure_post_with_empty_password(self):
         emptypass_data = {
             "username": "testuser",
-            "password":"",
+            "password": "",
         }
         response = self.client.post(self.url, emptypass_data)
         form = response.context["form"]
@@ -278,18 +278,12 @@ class TestLogoutView(TestCase):
         self.url = reverse("accounts:logout")
         User.objects.create_user(username="testuser", password="testpassword")
         self.client.login(username="testuser", password="testpassword")
-    
+
     def test_success_post(self):
         response = self.client.post(self.url)
 
-        self.assertRedirects(
-            response, 
-            reverse(settings.LOGOUT_REDIRECT_URL),
-            status_code=302,
-            target_status_code=200
-        )
+        self.assertRedirects(response, reverse(settings.LOGOUT_REDIRECT_URL), status_code=302, target_status_code=200)
         self.assertNotIn(SESSION_KEY, self.client.session)
-
 
 
 # class TestUserProfileView(TestCase):
