@@ -114,7 +114,7 @@ class TestSignupView(TestCase):
     def test_failure_post_with_duplicated_user(self):
         duplicated_data = {
             "username": "testuser",
-            "emali": "testmail@example.com",
+            "email": "testmail@example.com",
             "password1": "testpassword",
             "password2": "testpassword",
         }
@@ -256,8 +256,8 @@ class TestLoginView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertNotIn(SESSION_KEY, self.client.session)
         self.assertIn(
-            "正しいユーザー名とパスワードを入力してください。",
-            form.errors["username"],
+            "正しいユーザー名とパスワードを入力してください。どちらのフィールドも大文字と小文字は区別されます。",
+            form.errors["__all__"],
         )
 
     def test_failure_post_with_empty_password(self):

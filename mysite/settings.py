@@ -131,3 +131,4 @@ LOGIN_URL = "accounts:login"
 LOGOUT_URL = "accounts:logout"
 
 LOGIN_REDIRECT_URL = "tweets:home"
+LOGOUT_REDIRECT_URL = "accounts:login"
