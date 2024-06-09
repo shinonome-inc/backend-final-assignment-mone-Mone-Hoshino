@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<p>Username: {{ tweet.user.username }}</p>
+<p>Content: {{ tweet.content }}</p>
+<p>Created at: {{ tweet.created_at }}</p>
+
+{% if tweet.user == request.user %}
+<a href="{% url 'tweets:delete' pk=tweet.pk %}">このツイートを削除する</a>
+{% endif %}
+
+<a href="{% url 'tweets:home' %}">ホームに戻る</a>
+{% endblock %}

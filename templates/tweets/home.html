@@ -3,5 +3,14 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>Homeです</h1>
+<h1>Home</h1>
+<a href="{% url 'tweets:create' %}">ツイートする</a>
+<a href="{% url 'accounts:user_profile' username=user.username %}">プロフィール</a>
+{% for tweet in tweets %}
+<li>
+    <p><a href="{% url 'accounts:user_profile' username=tweet.user %}">{{ tweet.user.username }}</a></p>
+    <p><a href="{% url 'tweets:detail' pk=tweet.pk %}">{{ tweet.content }}</a></p>
+    <p>{{ tweet.created_at }}</p>
+</li>
+{% endfor %}
 {% endblock %}
